@@ -1,6 +1,6 @@
 import { Integer } from '@skypilot/common-types';
 import { ChangeLevel } from './constants';
-import { ReleaseVersion, ReleaseVersionInput } from './ReleaseVersion';
+import { ReleaseVersion, ReleaseVersionInput, ReleaseVersionRecord } from './ReleaseVersion';
 
 interface PrereleaseVersionChange {
   changeLevel?: ChangeLevel;
@@ -11,6 +11,11 @@ interface PrereleaseVersionInput extends ReleaseVersionInput {
   changeLevel?: ChangeLevel;
   channel: string;
   iteration?: Integer;
+}
+
+interface PrereleaseVersionRecord extends ReleaseVersionRecord {
+  channel: string;
+  iteration: Integer;
 }
 
 export class PrereleaseVersion {
@@ -105,7 +110,7 @@ export class PrereleaseVersion {
     return `${major}.${minor}.${patch}-${channel}.${iteration}`;
   }
 
-  get versionRecord(): object {
+  get versionRecord(): PrereleaseVersionRecord {
     const { major, minor, patch, channel, iteration } = this;
     return { major, minor, patch, channel: channel, iteration };
   }

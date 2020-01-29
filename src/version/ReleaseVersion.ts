@@ -7,6 +7,8 @@ export interface ReleaseVersionInput {
   patch?: Integer;
 }
 
+export type ReleaseVersionRecord = Required<ReleaseVersionInput>;
+
 export class ReleaseVersion {
   static parseVersionComponents(versionString: string): ReleaseVersionInput {
     const pattern = ReleaseVersion.versionPattern();
@@ -49,7 +51,7 @@ export class ReleaseVersion {
     this.validate();
   }
 
-  get versionRecord(): object {
+  get versionRecord(): ReleaseVersionRecord {
     const { major, minor, patch } = this;
     return { major, minor, patch };
   }
