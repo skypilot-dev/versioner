@@ -54,27 +54,33 @@ export class PrereleaseVersion {
 
   constructor(versionInput: PrereleaseVersionInput)
 
+  constructor(versionString: string);
+
   constructor(prereleaseVersion: PrereleaseVersion, change: PrereleaseVersionChange)
 
   constructor(releaseVersion: ReleaseVersion, change: PrereleaseVersionChange)
 
-  constructor(versionInput: ReleaseVersion | PrereleaseVersion | PrereleaseVersionInput, change?: PrereleaseVersionChange) {
-    if (versionInput instanceof ReleaseVersion) {
+  constructor(versionInput: ReleaseVersion | PrereleaseVersion | PrereleaseVersionInput | string, change?: PrereleaseVersionChange) {
+    const objectInput = typeof versionInput === 'object'
+      ? versionInput
+      : PrereleaseVersion.parseVersionComponents(versionInput);
+
+    if (objectInput instanceof ReleaseVersion) {
       if (change === undefined) {
         throw new Error('Cannot instantiate from ReleaseVersion without PrereleaseVersionChange')
       }
       const { channel, changeLevel = ChangeLevel.none } = change;
-      const releaseVersion = new ReleaseVersion(versionInput);
+      const releaseVersion = new ReleaseVersion(objectInput);
       releaseVersion.bump(changeLevel);
       return new PrereleaseVersion({ ...releaseVersion, channel });
     }
 
-    if (versionInput instanceof PrereleaseVersion) {
+    if (objectInput instanceof PrereleaseVersion) {
       if (change === undefined) {
         throw new Error('Cannot instantiate from PrereleaseVersion without PrereleaseVersionChange')
       }
       const { channel, changeLevel = ChangeLevel.none } = change;
-      const prereleaseVersion = new PrereleaseVersion({ ...versionInput });
+      const prereleaseVersion = new PrereleaseVersion({ ...objectInput });
       return prereleaseVersion.spawn(channel, changeLevel);
     }
     const {
@@ -84,7 +90,7 @@ export class PrereleaseVersion {
       changeLevel = ChangeLevel.none,
       channel,
       iteration = 0,
-    } = versionInput;
+    } = objectInput;
     this.major = major;
     this.minor = minor;
     this.patch = patch;

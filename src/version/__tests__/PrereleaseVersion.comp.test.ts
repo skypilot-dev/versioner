@@ -67,6 +67,17 @@ describe('PrereleaseVersion class', () => {
       const expectedLiteral = { major: 1, minor: 1, patch: 0, channel: 'alpha', iteration: 0 };
       expect(prereleaseVersion.versionRecord).toEqual(expectedLiteral);
     });
+
+    it('should be instantiable from prerelease version strings', () => {
+      const versionStrings = ['1.1.0-alpha.10', 'v1.1.0-alpha.10'];
+
+      versionStrings.forEach((versionString) => {
+        const prereleaseVersionRecord = new PrereleaseVersion(versionString).versionRecord;
+
+        const expectedLiteral = ({ major: 1, minor: 1, patch: 0, channel: 'alpha', iteration: 10 });
+        expect(prereleaseVersionRecord).toEqual(expectedLiteral);
+      });
+    });
   });
 
   describe('representations', () => {
