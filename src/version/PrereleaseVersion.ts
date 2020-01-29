@@ -1,6 +1,11 @@
 import { Integer } from '@skypilot/common-types';
-import { ReleaseVersionInput } from './ReleaseVersion';
+import { ChangeLevel } from './constants';
+import { ReleaseVersion, ReleaseVersionInput } from './ReleaseVersion';
 
+interface PrereleaseVersionChange {
+  changeLevel?: ChangeLevel;
+  channel: string;
+}
 
 interface PrereleaseVersionInput extends ReleaseVersionInput {
   channel: string;
@@ -18,7 +23,31 @@ export class PrereleaseVersion {
 
   patch: Integer = 0;
 
-  constructor(versionInput: PrereleaseVersionInput) {
+  constructor(versionInput: PrereleaseVersionInput)
+
+  constructor(prereleaseVersion: PrereleaseVersion, change: PrereleaseVersionChange)
+
+  constructor(releaseVersion: ReleaseVersion, change: PrereleaseVersionChange)
+
+  constructor(versionInput: ReleaseVersion | PrereleaseVersion | PrereleaseVersionInput, change?: PrereleaseVersionChange) {
+    if (versionInput instanceof ReleaseVersion) {
+      if (change === undefined) {
+        throw new Error('Cannot instantiate from ReleaseVersion without PrereleaseVersionChange')
+      }
+      const { channel, changeLevel = ChangeLevel.none } = change;
+      const releaseVersion = new ReleaseVersion(versionInput);
+      releaseVersion.bump(changeLevel);
+      return new PrereleaseVersion({ ...releaseVersion, channel });
+    }
+
+    if (versionInput instanceof PrereleaseVersion) {
+      if (change === undefined) {
+        throw new Error('Cannot instantiate from PrereleaseVersion without PrereleaseVersionChange')
+      }
+      const { channel, changeLevel = ChangeLevel.none } = change;
+      const prereleaseVersion = new PrereleaseVersion({ ...versionInput });
+      return prereleaseVersion.spawn(channel, changeLevel);
+    }
     const { major = 0, minor = 0, patch = 0, channel, iteration = 0 } = versionInput;
     this.major = major;
     this.minor = minor;
@@ -40,6 +69,15 @@ export class PrereleaseVersion {
 
   get versionTagName(): string {
     return `v${this.versionString}`;
+  }
+
+  /* Given a channel & change level, return a new PrereleaseVersion object with the new
+   * channel and a new version number bumped according to the change level. */
+  private spawn(channel: string, changeLevel = ChangeLevel.none): PrereleaseVersion {
+    const { major, minor, patch } = this;
+    const releaseVersion = new ReleaseVersion({ major, minor, patch });
+    releaseVersion.bump(changeLevel);
+    return new PrereleaseVersion({ ...releaseVersion, channel });
   }
 
   private validate(): void {
