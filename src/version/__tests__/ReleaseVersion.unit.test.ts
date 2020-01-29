@@ -20,6 +20,16 @@ describe('ReleaseVersion class', () => {
         new ReleaseVersion({ major: -1 });
       }).toThrow();
     });
+    it('should be instantiable from version strings', () => {
+      const versionStrings = ['1.1.10', 'v1.1.10'];
+
+      versionStrings.forEach((versionString) => {
+        const releaseVersion = new ReleaseVersion(versionString);
+
+        const expectedVersionRecord = ({ major: 1, minor: 1, patch: 10 });
+        expect(releaseVersion.versionRecord).toEqual(expectedVersionRecord);
+      });
+    });
   });
 
   describe('representations', () => {

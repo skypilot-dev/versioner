@@ -30,12 +30,19 @@ export class ReleaseVersion {
 
   patch: Integer;
 
-  constructor(versionInput: ReleaseVersionInput = {}) {
+  constructor(releaseVersionInput?: ReleaseVersionInput);
+
+  constructor(versionString?: string);
+
+  constructor(versionInput: ReleaseVersionInput | string = {}) {
+    const objectInput = typeof versionInput === 'object'
+      ? versionInput
+      : ReleaseVersion.parseVersionComponents(versionInput);
     const {
       major = 0,
       minor = 0,
       patch = 0,
-    } = versionInput;
+    } = objectInput;
     this.major = major;
     this.minor = minor;
     this.patch = patch;
