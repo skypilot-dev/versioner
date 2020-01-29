@@ -1,0 +1,10 @@
+{
+  "name": "@skypilot/versioner",
+  "version": "0.0.0",
+  "description": "Generates semantic release & prerelease version numbers and changelogs",
+  "main": "lib/index.js",
+  "repository": "https://github.com/skypilotcc/versioner.git",
+  "author": "William Thorsen <william@thorsen.dev>",
+  "license": "ISC",
+  "private": false
+}
