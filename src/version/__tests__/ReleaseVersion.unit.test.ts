@@ -70,4 +70,35 @@ describe('ReleaseVersion class', () => {
       expect(bumpedVersion).toEqual(expectedBumpedVersion);
     });
   });
+
+  describe('parseVersionElements(:string)', () => {
+    it("can parse '1.1.1' to an object", () => {
+      const versionString = '1.1.1';
+
+      const versionInput = ReleaseVersion.parseVersionComponents(versionString);
+
+      const expectedLiteral = { major: 1, minor: 1, patch: 1 };
+      expect(versionInput).toEqual(expectedLiteral);
+    });
+
+    it("can parse 'v1.0.10' to an object", () => {
+      const versionString = 'v1.0.10';
+
+      const versionInput = ReleaseVersion.parseVersionComponents(versionString);
+
+      const expectedLiteral = { major: 1, minor: 0, patch: 10 };
+      expect(versionInput).toEqual(expectedLiteral);
+    });
+
+    it("cannot parse invalid strings: '1.1', 'v1.1.x'", () => {
+      const versionStrings = ['x1.1.1', '1.1', 'v1.1.x'];
+
+      expect.assertions(3);
+      versionStrings.forEach((versionString) => {
+        expect(() => {
+          ReleaseVersion.parseVersionComponents(versionString);
+        }).toThrow();
+      });
+    });
+  });
 });

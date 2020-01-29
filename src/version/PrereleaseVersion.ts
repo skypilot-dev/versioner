@@ -14,6 +14,32 @@ interface PrereleaseVersionInput extends ReleaseVersionInput {
 }
 
 export class PrereleaseVersion {
+  static parseVersionComponents(versionString: string): PrereleaseVersionInput {
+    const PRERELEASE_VERSION_ELEMENT_COUNT = 5;
+
+    const pattern = PrereleaseVersion.versionPattern();
+    const components = (versionString.match(pattern) || []).slice(1);
+    if (!components || components.length < PRERELEASE_VERSION_ELEMENT_COUNT) {
+      throw new Error(`Invalid prerelease version string: ${versionString}`);
+    }
+
+    /* Parse version core components. */
+    const coreComponents = components
+      .slice(0, 3)
+      .map((element) => parseInt(element, 10));
+    const [major, minor, patch] = coreComponents;
+
+    /* Parse additional prerelease components. */
+    const channel: string = components[3];
+    const iteration: Integer = parseInt(components[4]);
+
+    return { major, minor, patch, channel, iteration };
+  }
+
+  static versionPattern(channelPattern = '[A-Za-z]+'): RegExp {
+    return new RegExp(`^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)-(${channelPattern})\\.([0-9]+)$`);
+  }
+
   changeLevel = ChangeLevel.none;
 
   channel = '';

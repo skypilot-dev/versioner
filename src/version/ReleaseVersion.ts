@@ -8,6 +8,22 @@ export interface ReleaseVersionInput {
 }
 
 export class ReleaseVersion {
+  static parseVersionComponents(versionString: string): ReleaseVersionInput {
+    const pattern = ReleaseVersion.versionPattern();
+    const versionElements = versionString.match(pattern);
+    if (!versionElements || versionElements.length < 4) {
+      throw new Error(`Invalid version string: ${versionString}`);
+    }
+    const [major, minor, patch] = versionElements
+      .slice(1)
+      .map((element) => parseInt(element, 10));
+    return { major, minor, patch };
+  }
+
+  static versionPattern(): RegExp {
+    return new RegExp(/^v?([0-9]+)\.([0-9]+)\.([0-9]+)$/);
+  }
+
   major: Integer;
 
   minor: Integer;

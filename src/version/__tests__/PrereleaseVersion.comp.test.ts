@@ -124,4 +124,35 @@ describe('PrereleaseVersion class', () => {
       expect(prereleaseVersion.versionRecord).toMatchObject(expectedLiteral);
     });
   });
+
+  describe('parseVersionComponents(:string)', () => {
+    it("can parse '1.1.1-alpha.0' to an object", () => {
+      const versionString = '1.1.1-alpha.0';
+
+      const prereleaseVersionInput = PrereleaseVersion.parseVersionComponents(versionString);
+
+      const expectedInput = { major: 1, minor: 1, patch: 1, channel: 'alpha', iteration: 0 };
+      expect(prereleaseVersionInput).toEqual(expectedInput);
+    });
+
+    it("can parse 'v1.0.10-beta.1' to an object", () => {
+      const versionString = 'v1.0.10-beta.1';
+
+      const prereleaseVersionInput = PrereleaseVersion.parseVersionComponents(versionString);
+
+      const expectedInput = { major: 1, minor: 0, patch: 10, channel: 'beta', iteration: 1 };
+      expect(prereleaseVersionInput).toEqual(expectedInput);
+    });
+
+    it("cannot parse invalid strings: '1.1', 'v1.1.x', '1.1.0.beta', '1.1.0..1'", () => {
+      const versionStrings = ['x1.1.1', '1.1', 'v1.1.x', '1.1.0.beta.1', '1.1.0-beta', '1.1.0..1'];
+
+      versionStrings.forEach((versionString) => {
+        expect.assertions(6);
+        expect(() => {
+          console.log(PrereleaseVersion.parseVersionComponents(versionString));
+        }).toThrow();
+      });
+    });
+  });
 });
