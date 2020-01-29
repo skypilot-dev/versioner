@@ -1,5 +1,5 @@
 import { ChangeLevel } from '../constants';
-import { ReleaseVersion } from '../ReleaseVersion';
+import { ReleaseVersion, ReleaseVersionRecord } from '../ReleaseVersion';
 
 describe('ReleaseVersion class', () => {
   describe('constructor', () => {
@@ -109,6 +109,46 @@ describe('ReleaseVersion class', () => {
           ReleaseVersion.parseVersionComponents(versionString);
         }).toThrow();
       });
+    });
+  });
+
+  describe('sorter(:ReleaseVersionRecord, :ReleaseVersionRecord)', () => {
+    let versionStrings: string[];
+    beforeEach(() => {
+      versionStrings = [
+        '9.9.9',
+        '0.1.2',
+        '2.0.10',
+      ];
+    });
+    const expectedOrder = [
+      '0.1.2',
+      '2.0.10',
+      '9.9.9',
+    ];
+    const expectedSortedVersions = expectedOrder
+      .map((versionString) => new ReleaseVersion(versionString));
+
+    it('should sort ReleaseVersion objects in ascending order', () => {
+      const sortedVersions = versionStrings
+        .map((versionString) => new ReleaseVersion(versionString))
+        .sort(ReleaseVersion.sorter);
+      expect(sortedVersions).toEqual(expectedSortedVersions);
+    });
+
+    it('can sort object literals that have all version components', () => {
+      interface VersionRecord extends ReleaseVersionRecord {
+        extraProp: number;
+      }
+      const sortedVersions = versionStrings
+        .map((versionString) => ReleaseVersion.parseVersionComponents(versionString))
+        /* Add an extra property to demonstrate that extra props are OK. */
+        .map((versionRecord) => ({ ...versionRecord, extraProp: 0 } as VersionRecord))
+        .sort(ReleaseVersion.sorter);
+
+      sortedVersions.forEach((sortedVersion, index) => {
+        expect(sortedVersion).toMatchObject(expectedSortedVersions[index]);
+      })
     });
   });
 });

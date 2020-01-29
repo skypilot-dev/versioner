@@ -1,4 +1,5 @@
-import { Integer } from '@skypilot/common-types';
+import { Integer, SortComparison } from '@skypilot/common-types';
+import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from '../common/array/constants';
 import { ChangeLevel } from './constants';
 
 export interface ReleaseVersionInput {
@@ -20,6 +21,21 @@ export class ReleaseVersion {
       .slice(1)
       .map((element) => parseInt(element, 10));
     return { major, minor, patch };
+  }
+
+  /* A sort function usable with any objects that have `major`, `minor` & `patch` properties. */
+  static sorter(a: ReleaseVersionRecord, b: ReleaseVersionRecord): SortComparison {
+    const sortableProps: Array<keyof ReleaseVersionRecord> = ['major', 'minor', 'patch'];
+    for (let i = 0; i < sortableProps.length; i += 1) {
+      const prop = sortableProps[i];
+      if (a[prop] > b[prop]) {
+        return SORT_LOWER;
+      }
+      if (a[prop] < b[prop]) {
+        return SORT_HIGHER;
+      }
+    }
+    return SORT_EQUAL;
   }
 
   static versionPattern(): RegExp {
