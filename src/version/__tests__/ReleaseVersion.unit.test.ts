@@ -1,3 +1,4 @@
+import { ChangeLevel } from '../constants';
 import { ReleaseVersion } from '../ReleaseVersion';
 
 describe('ReleaseVersion class', () => {
@@ -38,6 +39,35 @@ describe('ReleaseVersion class', () => {
       const versionRecord = new ReleaseVersion({ major: 1, minor: 1 }).versionRecord;
       const expectedVersionRecord = { major: 1, minor: 1, patch: 0 };
       expect(versionRecord).toEqual(expectedVersionRecord);
+    });
+  });
+
+  describe('bump(:ChangeLevel)', () => {
+    it('given changeLevel=major, should increment to next major version', () => {
+      const releaseVersion = new ReleaseVersion({ major: 0, minor: 1, patch: 1 });
+
+      const bumpedVersion = releaseVersion.bump(ChangeLevel.major);
+
+      const expectedBumpedVersion = { major: 1, minor: 0, patch: 0 };
+      expect(bumpedVersion).toEqual(expectedBumpedVersion);
+    });
+
+    it('given changeLevel=minor, should increment to next minor version', () => {
+      const releaseVersion = new ReleaseVersion({ major: 0, minor: 1, patch: 1 });
+
+      const bumpedVersion = releaseVersion.bump(ChangeLevel.minor);
+
+      const expectedBumpedVersion = { major: 0, minor: 2, patch: 0 };
+      expect(bumpedVersion).toEqual(expectedBumpedVersion);
+    });
+
+    it('given changeLevel=patch, should increment to next patch number', () => {
+      const releaseVersion = new ReleaseVersion({ major: 0, minor: 1, patch: 1 });
+
+      const bumpedVersion = releaseVersion.bump(ChangeLevel.patch);
+
+      const expectedBumpedVersion = { major: 0, minor: 1, patch: 2 };
+      expect(bumpedVersion).toEqual(expectedBumpedVersion);
     });
   });
 });
