@@ -3,6 +3,8 @@ import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from '../common/array/constants';
 import { ChangeLevel } from './constants';
 import { ReleaseVersion, ReleaseVersionInput, ReleaseVersionRecord } from './ReleaseVersion';
 
+type PrereleaseVersionFilter = (prereleaseVersion: PrereleaseVersion) => boolean;
+
 interface PrereleaseVersionChange {
   changeLevel?: ChangeLevel;
   channel: string;
@@ -20,6 +22,32 @@ export interface PrereleaseVersionRecord extends ReleaseVersionRecord {
 }
 
 export class PrereleaseVersion {
+  /* Given a version & change level, return a function matching versions at that change level.
+  * For example, `{ major: 1, minor: 1, patch: 1 }, ChangeLevel.minor, 'beta'` returns a function
+  * that matches any `1.1.x-beta`. */
+  static changeLevelFilterFn(targetVersion: ReleaseVersionInput, changeLevel: ChangeLevel, channel?: string): PrereleaseVersionFilter {
+    return ((prereleaseVersion: PrereleaseVersion) => {
+      if (channel && (prereleaseVersion.channel != channel)) {
+        return false;
+      }
+      const { major, minor, patch } = prereleaseVersion;
+      if (major !== targetVersion.major) {
+        return false;
+      }
+      if (changeLevel < ChangeLevel.major) {
+        if (minor !== targetVersion.minor) {
+          return false;
+        }
+        if (changeLevel < ChangeLevel.minor) {
+          if (patch !== targetVersion.patch) {
+            return false;
+          }
+        }
+      }
+      return true;
+    });
+  }
+
   static parseVersionComponents(versionString: string): PrereleaseVersionInput {
     const PRERELEASE_VERSION_ELEMENT_COUNT = 5;
 
