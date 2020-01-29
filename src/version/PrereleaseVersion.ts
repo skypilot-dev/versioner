@@ -1,4 +1,5 @@
-import { Integer } from '@skypilot/common-types';
+import { Integer, SortComparison } from '@skypilot/common-types';
+import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from '../common/array/constants';
 import { ChangeLevel } from './constants';
 import { ReleaseVersion, ReleaseVersionInput, ReleaseVersionRecord } from './ReleaseVersion';
 
@@ -13,7 +14,7 @@ interface PrereleaseVersionInput extends ReleaseVersionInput {
   iteration?: Integer;
 }
 
-interface PrereleaseVersionRecord extends ReleaseVersionRecord {
+export interface PrereleaseVersionRecord extends ReleaseVersionRecord {
   channel: string;
   iteration: Integer;
 }
@@ -39,6 +40,23 @@ export class PrereleaseVersion {
     const iteration: Integer = parseInt(components[4]);
 
     return { major, minor, patch, channel, iteration };
+  }
+
+  /* A sort function usable with any objects that have all elements of a prelease version. */
+  static sorter(a: PrereleaseVersionRecord, b: PrereleaseVersionRecord): SortComparison {
+    const sortableProps: Array<keyof PrereleaseVersionRecord> = [
+      'major', 'minor', 'patch', 'channel', 'iteration',
+    ];
+    for (let i = 0; i < sortableProps.length; i += 1) {
+      const prop = sortableProps[i];
+      if (a[prop] > b[prop]) {
+        return SORT_LOWER;
+      }
+      if (a[prop] < b[prop]) {
+        return SORT_HIGHER;
+      }
+    }
+    return SORT_EQUAL;
   }
 
   static versionPattern(channelPattern = '[A-Za-z]+'): RegExp {
@@ -112,7 +130,7 @@ export class PrereleaseVersion {
 
   get versionRecord(): PrereleaseVersionRecord {
     const { major, minor, patch, channel, iteration } = this;
-    return { major, minor, patch, channel: channel, iteration };
+    return { major, minor, patch, channel, iteration };
   }
 
   get versionTagName(): string {

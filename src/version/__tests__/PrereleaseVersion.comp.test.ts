@@ -1,5 +1,5 @@
 import { ChangeLevel } from '../constants';
-import { PrereleaseVersion } from '../PrereleaseVersion';
+import { PrereleaseVersion, PrereleaseVersionRecord } from '../PrereleaseVersion';
 import { ReleaseVersion } from '../ReleaseVersion';
 
 describe('PrereleaseVersion class', () => {
@@ -164,6 +164,48 @@ describe('PrereleaseVersion class', () => {
           console.log(PrereleaseVersion.parseVersionComponents(versionString));
         }).toThrow();
       });
+    });
+  });
+
+  describe('sorter(:PrereleaseVersionRecord, :PrereleaseVersionRecord)', () => {
+    let versionStrings: string[];
+    beforeEach(() => {
+      versionStrings = [
+        '9.9.9-alpha.9',
+        '0.0.2-zeta.1',
+        '0.0.10-beta.1',
+        '0.0.10-beta.0',
+      ];
+    });
+    const expectedOrder = [
+      '0.0.2-zeta.1',
+      '0.0.10-beta.0',
+      '0.0.10-beta.1',
+      '9.9.9-alpha.9',
+    ];
+    const expectedSortedVersions = expectedOrder
+      .map((versionString) => new PrereleaseVersion(versionString));
+
+    it('should sort PrereleaseVersion objects in ascending order', () => {
+      const sortedVersions = versionStrings
+        .map((versionString) => new PrereleaseVersion(versionString))
+        .sort(PrereleaseVersion.sorter);
+      expect(sortedVersions).toEqual(expectedSortedVersions);
+    });
+
+    it('can sort object literals that have all version components', () => {
+      interface VersionRecord extends PrereleaseVersionRecord {
+        extraProp: number;
+      }
+      const sortedVersions = versionStrings
+        .map((versionString) => PrereleaseVersion.parseVersionComponents(versionString))
+        /* Add an extra property to demonstrate that extra props are OK. */
+        .map((versionRecord) => ({ ...versionRecord, extraProp: 0 } as VersionRecord))
+        .sort(PrereleaseVersion.sorter);
+
+      sortedVersions.forEach((sortedVersion, index) => {
+        expect(sortedVersion).toMatchObject(expectedSortedVersions[index].versionRecord);
+      })
     });
   });
 });
