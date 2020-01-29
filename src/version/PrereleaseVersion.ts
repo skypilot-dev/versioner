@@ -8,11 +8,14 @@ interface PrereleaseVersionChange {
 }
 
 interface PrereleaseVersionInput extends ReleaseVersionInput {
+  changeLevel?: ChangeLevel;
   channel: string;
   iteration?: Integer;
 }
 
 export class PrereleaseVersion {
+  changeLevel = ChangeLevel.none;
+
   channel = '';
 
   iteration: Integer = 0;
@@ -48,10 +51,18 @@ export class PrereleaseVersion {
       const prereleaseVersion = new PrereleaseVersion({ ...versionInput });
       return prereleaseVersion.spawn(channel, changeLevel);
     }
-    const { major = 0, minor = 0, patch = 0, channel, iteration = 0 } = versionInput;
+    const {
+      major = 0,
+      minor = 0,
+      patch = 0,
+      changeLevel = ChangeLevel.none,
+      channel,
+      iteration = 0,
+    } = versionInput;
     this.major = major;
     this.minor = minor;
     this.patch = patch;
+    this.changeLevel = changeLevel;
     this.channel = channel;
     this.iteration = iteration;
     this.validate();
@@ -69,6 +80,34 @@ export class PrereleaseVersion {
 
   get versionTagName(): string {
     return `v${this.versionString}`;
+  }
+
+  bump(changeLevel = ChangeLevel.none): PrereleaseVersion {
+    if (changeLevel <= this.changeLevel) {
+      this.iteration += 1;
+      return this;
+    }
+    this.changeLevel = changeLevel;
+    switch (changeLevel) {
+      case ChangeLevel.major:
+        this.major += 1;
+        this.minor = 0;
+        this.patch = 0;
+        this.iteration = 0;
+        break;
+      case ChangeLevel.minor:
+        this.minor += 1;
+        this.patch = 0;
+        this.iteration = 0;
+        break;
+      case ChangeLevel.patch:
+        this.patch += 1;
+        this.iteration = 0;
+        break;
+      default:
+        this.iteration += 1;
+    }
+    return this;
   }
 
   /* Given a channel & change level, return a new PrereleaseVersion object with the new

@@ -91,4 +91,37 @@ describe('PrereleaseVersion class', () => {
     });
 
   });
+
+  describe('bump(:ChangeLevel)', () => {
+    it('if changeLevel is less than or equal to the changeLevel so far, should increment the iteration number', () => {
+      const prereleaseVersion = new PrereleaseVersion(
+        { major: 2, channel: 'next', changeLevel: ChangeLevel.major }
+      );
+
+      prereleaseVersion.bump(ChangeLevel.minor);
+
+      const expectedLiteral = { major: 2, minor: 0, patch: 0, iteration: 1 };
+      expect(prereleaseVersion.versionRecord).toMatchObject(expectedLiteral);
+    });
+
+    it('if changeLevel is greater than the max changeLevel so far, should bump the version number', () => {
+      const prereleaseVersion = new PrereleaseVersion(
+        { major: 1, minor: 1, channel: 'next', changeLevel: ChangeLevel.minor }
+      );
+
+      prereleaseVersion.bump(ChangeLevel.major);
+
+      const expectedLiteral = { major: 2, minor: 0, patch: 0, iteration: 0 };
+      expect(prereleaseVersion.versionRecord).toMatchObject(expectedLiteral);
+    });
+
+    it('if invoked without a parameter, should increment the iteration number', () => {
+      const prereleaseVersion = new PrereleaseVersion({ channel: 'next' });
+
+      prereleaseVersion.bump();
+
+      const expectedLiteral = { major: 0, minor: 0, patch: 0, iteration: 1 };
+      expect(prereleaseVersion.versionRecord).toMatchObject(expectedLiteral);
+    });
+  });
 });
