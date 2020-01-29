@@ -288,4 +288,44 @@ describe('PrereleaseVersion class', () => {
       })
     });
   });
+
+  describe('versionFilterFn(:ReleaseVersionInput, channel:string)', () => {
+    const prereleaseVersions: PrereleaseVersion[] = [
+      '1.2.1-alpha.0',
+      '1.2.2-alpha.0',
+      '1.2.2-alpha.1',
+      '1.2.2-beta.0',
+      '2.2.2-alpha.0',
+    ].map((versionString) => new PrereleaseVersion(versionString));
+    const targetVersion = new ReleaseVersion('1.2.2');
+
+    it('given release version 1.2.2 and a channel, should match all iterations with that version number', () => {
+      const versionFilter = PrereleaseVersion.versionFilterFn(targetVersion, 'alpha');
+
+      const filtered = prereleaseVersions
+        .filter(versionFilter)
+        .map(({ versionString }) => versionString);
+
+      const expected = [
+        '1.2.2-alpha.0',
+        '1.2.2-alpha.1',
+      ];
+      expect(filtered).toEqual(expected);
+    });
+
+    it('when channel is omitted or empty, should match all channels', () => {
+      const versionFilter = PrereleaseVersion.versionFilterFn(targetVersion);
+
+      const filtered = prereleaseVersions
+        .filter(versionFilter)
+        .map(({ versionString }) => versionString);
+
+      const expected = [
+        '1.2.2-alpha.0',
+        '1.2.2-alpha.1',
+        '1.2.2-beta.0',
+      ];
+      expect(filtered).toEqual(expected);
+    });
+  });
 });

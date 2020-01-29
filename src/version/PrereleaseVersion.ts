@@ -87,6 +87,23 @@ export class PrereleaseVersion {
     return SORT_EQUAL;
   }
 
+  /* Given a core version and, optionally, a channel, return a filter that matches all prerelease
+   * versions having the same core version and channel (or any channel, if none is specified). */
+  static versionFilterFn(
+    coreVersionInput: ReleaseVersionInput,
+    channel?: string
+  ): PrereleaseVersionFilter {
+    return ((prereleaseVersion: PrereleaseVersion) => {
+      if (channel && (prereleaseVersion.channel !== channel)) {
+        return false;
+      }
+      const { major, minor, patch } = prereleaseVersion;
+      return major === coreVersionInput.major
+        && minor === coreVersionInput.minor
+        && patch === coreVersionInput.patch;
+    });
+  }
+
   static versionPattern(channelPattern = '[A-Za-z]+'): RegExp {
     return new RegExp(`^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)-(${channelPattern})\\.([0-9]+)$`);
   }
