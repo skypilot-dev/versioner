@@ -13,9 +13,9 @@ yarn add @skypilot/versioner
 npm install @skypilot/versioner
 ```
 
-## Usage
+## Basic usage
 
-### Usage: TypeScript
+### TypeScript
 
 ```
 import { bump, ChangeLevel } from '@skypilot/versioner';
@@ -42,7 +42,7 @@ bump('1.0.1', ChangeLevel.minor, 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.2'])
 // '1.1.0-alpha.3'
 ```
 
-### Usage: ES6
+### ES6
 ```
 import { bump } from '@skypilot/versioner';
 
@@ -69,3 +69,11 @@ bump('1.0.1', 'minor', 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.2'])
 // '1.1.0-alpha.3'
 ```
 
+## Advance usage
+
+The following classes are available:
+
+- `PrereleaseVersion`
+- `ReleaseVersion`
+
+TODO: Document class API.

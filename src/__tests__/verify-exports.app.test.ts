@@ -1,6 +1,11 @@
 import * as actualExports from '../index';
 
 const intendedExports: string[] = [
+  /* Classes */
+  'PrereleaseVersion',
+  'ReleaseVersion',
+
+  /* Functions */
   'bump',
 ];
 
