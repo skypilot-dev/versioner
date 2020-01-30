@@ -216,6 +216,40 @@ describe('PrereleaseVersion class', () => {
     });
   });
 
+  describe('computeNextIteration(coreVersion:ReleaseVersion, channel:string, versionStrings:string[)', () => {
+    const coreVersion = new ReleaseVersion('1.0.0');
+    const channel = 'beta';
+
+    it('when no version strings are given, should return 0', () => {
+      const iteration = PrereleaseVersion.computeNextIteration(coreVersion, channel);
+
+      const expectedIteration = 0;
+      expect(iteration).toBe(expectedIteration);
+    });
+
+    it('when there are no previous releases in the same channel, should return 0', () => {
+      const verStrings = ['1.0.0-alpha.1'];
+
+      const iteration = PrereleaseVersion.computeNextIteration(coreVersion, channel, verStrings);
+
+      const expectedIteration = 0;
+      expect(iteration).toBe(expectedIteration);
+    });
+
+    it("when there are releases in the same channel, should return the same version's highest iteration + 1", () => {
+      const verStrings = [
+        '1.0.0-beta.1',
+        '1.0.0-beta.2', // highest iteration at the same version number
+        '2.0.0-beta.5',
+      ];
+
+      const iteration = PrereleaseVersion.computeNextIteration(coreVersion, channel, verStrings);
+
+      const expectedIteration = 3; // highest iteration + 1
+      expect(iteration).toBe(expectedIteration);
+    });
+  });
+
   describe('parseVersionComponents(:string)', () => {
     it("can parse '1.1.1-alpha.0' to an object", () => {
       const versionString = '1.1.1-alpha.0';

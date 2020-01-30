@@ -48,6 +48,24 @@ export class PrereleaseVersion {
     });
   }
 
+  static computeNextIteration(
+    coreReleaseVersion: ReleaseVersion,
+    channel: string,
+    versionStrings: string[] = [],
+  ): Integer {
+    const versionFilter = PrereleaseVersion.versionFilterFn(coreReleaseVersion, channel);
+    const prereleaseVersions = versionStrings
+      .map((versionString) => new PrereleaseVersion(versionString))
+      .filter(versionFilter)
+      .sort(PrereleaseVersion.sorter)
+      .reverse();
+
+    if (prereleaseVersions.length > 0) {
+      return prereleaseVersions[0].iteration + 1;
+    }
+    return 0;
+  }
+
   static parseVersionComponents(versionString: string): PrereleaseVersionInput {
     const PRERELEASE_VERSION_ELEMENT_COUNT = 5;
 
