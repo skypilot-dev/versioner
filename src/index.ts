@@ -1,1 +1,1 @@
-export * from './version';
+export { bump } from './bump';

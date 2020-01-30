@@ -1,5 +1,5 @@
 import { Integer, SortComparison } from '@skypilot/common-types';
-import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from '../common/array/constants';
+import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
 import { ReleaseVersion, ReleaseVersionInput, ReleaseVersionRecord } from './ReleaseVersion';
 
