@@ -12,6 +12,13 @@ describe("bump('0.1.2', :ChangeLevel[, 'beta'[, versionStrings]])", () => {
     expect(bumpedVersionString).toBe(expectedVersionString);
   });
 
+  it('can parse changeLevel from a string', async () => {
+    const bumpedVersionString = bump(baseVersion, 'minor');
+
+    const expectedVersionString = '0.2.0';
+    expect(bumpedVersionString).toBe(expectedVersionString);
+  });
+
   it('when there are no changes, should return 0.1.2-beta.0', async () => {
     const bumpedVersionString = bump(baseVersion, ChangeLevel.none, channel);
 
