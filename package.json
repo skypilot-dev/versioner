@@ -39,7 +39,7 @@
   ],
   "devDependencies": {
     "@skypilot/common-types": "^0.5.0",
-    "@skypilot/toolchain": "^1.5.1"
+    "@skypilot/toolchain": "^1.9.1-next"
   },
   "publishConfig": {
     "access": "public"
