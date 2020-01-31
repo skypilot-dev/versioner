@@ -1,26 +1,26 @@
 import { ChangeLevel } from '../constants';
-import { bump } from '../bump';
+import { bumpVersion } from '../bumpVersion';
 
-describe("bump('0.1.2', :ChangeLevel[, 'beta'[, versionStrings]])", () => {
+describe("bumpVersion('0.1.2', :ChangeLevel[, 'beta'[, versionStrings]])", () => {
   const baseVersion = '0.1.2';
   const channel = 'beta';
 
   it('if no channel is given, should bump & return the release version', () => {
-    const bumpedVersionString = bump(baseVersion, ChangeLevel.minor);
+    const bumpedVersionString = bumpVersion(baseVersion, ChangeLevel.minor);
 
     const expectedVersionString = '0.2.0';
     expect(bumpedVersionString).toBe(expectedVersionString);
   });
 
   it('can parse changeLevel from a string', async () => {
-    const bumpedVersionString = bump(baseVersion, 'minor');
+    const bumpedVersionString = bumpVersion(baseVersion, 'minor');
 
     const expectedVersionString = '0.2.0';
     expect(bumpedVersionString).toBe(expectedVersionString);
   });
 
   it('when there are no changes, should return 0.1.2-beta.0', async () => {
-    const bumpedVersionString = bump(baseVersion, ChangeLevel.none, channel);
+    const bumpedVersionString = bumpVersion(baseVersion, ChangeLevel.none, channel);
 
     const expectedVersionString = '0.1.2-beta.0';
     expect(bumpedVersionString).toBe(expectedVersionString);
@@ -39,7 +39,7 @@ describe("bump('0.1.2', :ChangeLevel[, 'beta'[, versionStrings]])", () => {
       '0.2.0-beta.4',
     ];
 
-    const bumpedVersionString = bump(
+    const bumpedVersionString = bumpVersion(
       `v${baseVersion}`, // version number prefixed with 'v' is accepted
       ChangeLevel.minor,
       channel,

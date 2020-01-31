@@ -6,7 +6,7 @@ const intendedExports: string[] = [
   'ReleaseVersion',
 
   /* Functions */
-  'bump',
+  'bumpVersion',
 ];
 
 describe('Export verification', () => {

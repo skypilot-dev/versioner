@@ -52,7 +52,7 @@ describe('ReleaseVersion class', () => {
     });
   });
 
-  describe('bump(:ChangeLevel)', () => {
+  describe('bumpVersion(:ChangeLevel)', () => {
     it('given changeLevel=major, should increment to next major version', () => {
       const releaseVersion = new ReleaseVersion({ major: 0, minor: 1, patch: 1 });
 

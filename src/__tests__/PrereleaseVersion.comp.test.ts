@@ -103,7 +103,7 @@ describe('PrereleaseVersion class', () => {
 
   });
 
-  describe('bump(:ChangeLevel)', () => {
+  describe('bumpVersion(:ChangeLevel)', () => {
     it('if changeLevel is less than or equal to the changeLevel so far, should increment the iteration number', () => {
       const prereleaseVersion = new PrereleaseVersion(
         { major: 2, channel: 'next', changeLevel: ChangeLevel.major }

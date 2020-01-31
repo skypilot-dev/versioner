@@ -26,7 +26,7 @@ function parseChangeLevel(changeLevelString: ChangeLevelString): ChangeLevel {
   throw new Error(`Unrecognized change level: ${changeLevelString}`);
 }
 
-export function bump(
+export function bumpVersion(
   baseVersionString: string,
   changeLevel: ChangeLevel | ChangeLevelString,
   channel = 'latest',
