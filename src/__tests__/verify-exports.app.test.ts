@@ -5,8 +5,12 @@ const intendedExports: string[] = [
   'PrereleaseVersion',
   'ReleaseVersion',
 
+  /* Constants */
+  'ChangeLevel',
+
   /* Functions */
   'bumpVersion',
+  'parseChangeLevel',
 ];
 
 describe('Export verification', () => {

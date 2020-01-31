@@ -18,7 +18,7 @@ const changeLevelMap: { [key: string]: ChangeLevel } = {
   major: ChangeLevel.major,
 };
 
-function parseChangeLevel(changeLevelString: ChangeLevelString): ChangeLevel {
+export function parseChangeLevel(changeLevelString: ChangeLevelString): ChangeLevel {
   const changeLevel: ChangeLevel = changeLevelMap[changeLevelString];
   if (changeLevel !== undefined) {
     return changeLevel;

@@ -73,9 +73,20 @@ bumpVersion('1.0.1', 'minor', 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.2'])
 
 ## Advance usage
 
-The following classes are available:
+The library exposes the following exports:
+
+#### Classes
 
 - `PrereleaseVersion`
 - `ReleaseVersion`
 
-TODO: Document class API.
+
+#### Constants & enums
+
+- `ChangeLevel`
+
+#### Functions
+
+- `parseChangeLevel(changeLevel: string): ChangeLevel`
+
+TODO: Document class and function API.
