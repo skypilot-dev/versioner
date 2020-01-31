@@ -53,8 +53,10 @@ export class PrereleaseVersion {
     channel: string,
     versionStrings: string[] = [],
   ): Integer {
+    const versionPattern = PrereleaseVersion.versionPattern(channel);
     const versionFilter = PrereleaseVersion.versionFilterFn(coreReleaseVersion, channel);
     const prereleaseVersions = versionStrings
+      .filter((tagName) => versionPattern.test(tagName))
       .map((versionString) => new PrereleaseVersion(versionString))
       .filter(versionFilter)
       .sort(PrereleaseVersion.sorter)
