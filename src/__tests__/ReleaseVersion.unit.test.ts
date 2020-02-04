@@ -151,4 +151,20 @@ describe('ReleaseVersion class', () => {
       })
     });
   });
+
+  describe('versionFilter', () => {
+    it('should filter out invalid version strings', () => {
+      const goodVersionString = '1.0.0';
+      const badVersionStrings = [
+        '1.0.0-beta.0',
+        '0.0',
+        '.0.0',
+        '0..0.0',
+      ];
+
+      const goodVersionStrings = [goodVersionString, ...badVersionStrings]
+        .filter(ReleaseVersion.versionFilter);
+      expect(goodVersionStrings).toEqual([goodVersionString]);
+    });
+  });
 });
