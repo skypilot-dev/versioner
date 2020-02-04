@@ -157,9 +157,15 @@ export class PrereleaseVersion {
       if (change === undefined) {
         throw new Error('Cannot instantiate from ReleaseVersion without PrereleaseVersionChange')
       }
-      const { channel, changeLevel = ChangeLevel.none } = change;
+      /* When instantiated from a release version, a prerelease must have a core version that is
+       * greater than the release's version; therefore, if change level is `ChangeLevel.none`,
+       * increase it to `ChangeLevel.patch`. */
+      const { channel, changeLevel = ChangeLevel.patch } = change;
       const releaseVersion = new ReleaseVersion(objectInput);
-      releaseVersion.bump(changeLevel);
+
+      /* Do not allow a change level less than `patch`. */
+      releaseVersion.bump(Math.max(changeLevel, ChangeLevel.patch));
+
       return new PrereleaseVersion({ ...releaseVersion, channel });
     }
 

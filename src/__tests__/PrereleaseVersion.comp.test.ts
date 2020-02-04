@@ -26,7 +26,9 @@ describe('PrereleaseVersion class', () => {
       const releaseVersion = new ReleaseVersion({ major: 1 });
       const prereleaseVersion = new PrereleaseVersion(releaseVersion, { channel: 'next' });
 
-      const expectedVersionRecord = { major: 1, minor: 0, patch: 0, channel: 'next', iteration: 0 };
+      /* The core version must increase. So even though no changes are reported here, the patch
+       * number should increase from 0 to 1. */
+      const expectedVersionRecord = { major: 1, minor: 0, patch: 1, channel: 'next', iteration: 0 };
       expect(prereleaseVersion.versionRecord).toEqual(expectedVersionRecord);
     });
 
