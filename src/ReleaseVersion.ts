@@ -2,15 +2,51 @@ import { Integer, SortComparison } from '@skypilot/common-types';
 import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
 
+type VersionInput = ReleaseVersion | ReleaseVersionInput | string;
+type VersionRecord = { releaseVersion: ReleaseVersion; versionInput: VersionInput };
+type ReleaseVersionSorter = (a: VersionRecord, b: VersionRecord) => SortComparison;
+export type ReleaseVersionRecord = Required<ReleaseVersionInput>;
+
 export interface ReleaseVersionInput {
   major?: Integer;
   minor?: Integer;
   patch?: Integer;
 }
 
-export type ReleaseVersionRecord = Required<ReleaseVersionInput>;
+/* eslint-disable @typescript-eslint/no-use-before-define */
+function createVersionRecords(versionInputs: Array<VersionInput>): VersionRecord[] {
+  return versionInputs
+    .map((versionInput) => {
+      if (versionInput instanceof  ReleaseVersion) {
+        return {
+          releaseVersion: versionInput,
+          versionInput,
+        };
+      }
+      const releaseVersion = new ReleaseVersion(versionInput);
+      return {
+        releaseVersion,
+        versionInput,
+      };
+    });
+}
+
+const sorterOnReleaseVersion: ReleaseVersionSorter = (a, b) => {
+  const releaseVersionA = a.releaseVersion;
+  const releaseVersionB = b.releaseVersion;
+  return ReleaseVersion.sorter(releaseVersionA, releaseVersionB);
+};
+/* eslint-enable @typescript-eslint/no-use-before-define */
 
 export class ReleaseVersion {
+  /* Given a series of version inputs, return the one that has the highest version number. */
+  static highestOf<T extends VersionInput>(versionInputs: T[]): T {
+    const versionRecords = createVersionRecords(versionInputs)
+      .sort(sorterOnReleaseVersion)
+      .reverse();
+    return versionRecords[0].versionInput as T;
+  }
+
   static parseVersionComponents(versionString: string): ReleaseVersionInput {
     const pattern = ReleaseVersion.versionPattern();
     const versionElements = versionString.match(pattern);
@@ -51,10 +87,6 @@ export class ReleaseVersion {
   minor: Integer;
 
   patch: Integer;
-
-  constructor(releaseVersionInput?: ReleaseVersionInput);
-
-  constructor(versionString?: string);
 
   constructor(versionInput: ReleaseVersionInput | string = {}) {
     const objectInput = typeof versionInput === 'object'

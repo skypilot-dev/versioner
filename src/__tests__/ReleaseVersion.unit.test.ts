@@ -81,6 +81,30 @@ describe('ReleaseVersion class', () => {
     });
   });
 
+  describe('highestOf(VersionInput[])', () => {
+    it('should return the highest of version strings', () => {
+      const versionStrings = ['1.0.0', '0.2.0', '0.0.3'];
+      const highest = ReleaseVersion.highestOf(versionStrings);
+
+      expect(highest).toBe('1.0.0');
+    });
+
+    it('should return the highest of ReleaseVersion objects', () => {
+      const releaseVersions: ReleaseVersion[] = ['1.0.0', '0.2.0', '0.0.3']
+        .map((versionString) => new ReleaseVersion(versionString));
+      const highest = ReleaseVersion.highestOf(releaseVersions);
+
+      expect(highest.versionString).toBe('1.0.0');
+    });
+
+    it('should return the highest of object literals', () => {
+      const versionInputs = [{ major: 1 }, { minor: 2 }, { patch: 3 }];
+      const highest = ReleaseVersion.highestOf(versionInputs);
+
+      expect(highest).toEqual({ major: 1 });
+    });
+  });
+
   describe('parseVersionElements(:string)', () => {
     it("can parse '1.1.1' to an object", () => {
       const versionString = '1.1.1';
