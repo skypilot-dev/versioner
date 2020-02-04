@@ -41,6 +41,12 @@ const sorterOnReleaseVersion: ReleaseVersionSorter = (a, b) => {
 export class ReleaseVersion {
   /* Given a series of version inputs, return the one that has the highest version number. */
   static highestOf<T extends VersionInput>(versionInputs: T[]): T {
+    if (versionInputs.length === 0) {
+      throw new Error('ReleaseVersion.higherOf() requires an array of at least one item.')
+    }
+    if (versionInputs.length === 1) {
+      return versionInputs[0];
+    }
     const versionRecords = createVersionRecords(versionInputs)
       .sort(sorterOnReleaseVersion)
       .reverse();
