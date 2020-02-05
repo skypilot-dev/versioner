@@ -2,19 +2,19 @@ import { Integer, SortComparison } from '@skypilot/common-types';
 import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
 
-type VersionInput = ReleaseVersion | ReleaseVersionInput | string;
-type VersionRecord = { releaseVersion: ReleaseVersion; versionInput: VersionInput };
+type ReleaseVersionInput = ReleaseVersion | ReleaseVersionObjectInput | string;
+type VersionRecord = { releaseVersion: ReleaseVersion; versionInput: ReleaseVersionInput };
 type ReleaseVersionSorter = (a: VersionRecord, b: VersionRecord) => SortComparison;
-export type ReleaseVersionRecord = Required<ReleaseVersionInput>;
+export type ReleaseVersionRecord = Required<ReleaseVersionObjectInput>;
 
-export interface ReleaseVersionInput {
+export interface ReleaseVersionObjectInput {
   major?: Integer;
   minor?: Integer;
   patch?: Integer;
 }
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
-function createVersionRecords(versionInputs: Array<VersionInput>): VersionRecord[] {
+function createVersionRecords(versionInputs: Array<ReleaseVersionInput>): VersionRecord[] {
   return versionInputs
     .map((versionInput) => {
       if (versionInput instanceof  ReleaseVersion) {
@@ -40,7 +40,7 @@ const sorterOnReleaseVersion: ReleaseVersionSorter = (a, b) => {
 
 export class ReleaseVersion {
   /* Given a series of version inputs, return the one that has the highest version number. */
-  static highestOf<T extends VersionInput>(versionInputs: T[]): T {
+  static highestOf<T extends ReleaseVersionInput>(versionInputs: T[]): T {
     if (versionInputs.length === 0) {
       throw new Error('ReleaseVersion.higherOf() requires an array of at least one item.')
     }
@@ -53,7 +53,7 @@ export class ReleaseVersion {
     return versionRecords[0].versionInput as T;
   }
 
-  static parseVersionComponents(versionString: string): ReleaseVersionInput {
+  static parseVersionComponents(versionString: string): ReleaseVersionObjectInput {
     const pattern = ReleaseVersion.versionPattern();
     const versionElements = versionString.match(pattern);
     if (!versionElements || versionElements.length < 4) {
@@ -94,7 +94,7 @@ export class ReleaseVersion {
 
   patch: Integer;
 
-  constructor(versionInput: ReleaseVersionInput | string = {}) {
+  constructor(versionInput: ReleaseVersionObjectInput | string = {}) {
     const objectInput = typeof versionInput === 'object'
       ? versionInput
       : ReleaseVersion.parseVersionComponents(versionInput);

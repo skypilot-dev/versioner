@@ -1,16 +1,19 @@
 import { Integer, SortComparison } from '@skypilot/common-types';
 import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
-import { ReleaseVersion, ReleaseVersionInput, ReleaseVersionRecord } from './ReleaseVersion';
+import { ReleaseVersion, ReleaseVersionObjectInput, ReleaseVersionRecord } from './ReleaseVersion';
 
 type PrereleaseVersionFilter = (prereleaseVersion: PrereleaseVersion) => boolean;
+type PrereleaseVersionInput = PrereleaseVersion | PrereleaseVersionObjectInput | string;
+type PrereleaseVersionSorter = (a: VersionRecord, b: VersionRecord) => SortComparison;
+type VersionRecord = { prereleaseVersion: PrereleaseVersion; versionInput: PrereleaseVersionInput };
 
 interface PrereleaseVersionChange {
   changeLevel?: ChangeLevel;
   channel: string;
 }
 
-interface PrereleaseVersionInput extends ReleaseVersionInput {
+interface PrereleaseVersionObjectInput extends ReleaseVersionObjectInput {
   changeLevel?: ChangeLevel;
   channel: string;
   iteration?: Integer;
@@ -21,11 +24,34 @@ export interface PrereleaseVersionRecord extends ReleaseVersionRecord {
   iteration: Integer;
 }
 
+/* eslint-disable @typescript-eslint/no-use-before-define */
+function createVersionRecords(versionInputs: Array<PrereleaseVersionInput>): VersionRecord[] {
+  return versionInputs
+    .map((versionInput) => {
+      if (versionInput instanceof PrereleaseVersion) {
+        return {
+          prereleaseVersion: versionInput,
+          versionInput,
+        };
+      }
+      return {
+        prereleaseVersion: new PrereleaseVersion(versionInput),
+        versionInput,
+      }
+    });
+}
+
+const sorterOnPrereleaseVersion: PrereleaseVersionSorter = (a, b) => {
+  const releaseVersionA = a.prereleaseVersion;
+  const releaseVersionB = b.prereleaseVersion;
+  return ReleaseVersion.sorter(releaseVersionA, releaseVersionB);
+};
+
 export class PrereleaseVersion {
   /* Given a version & change level, return a function matching versions at that change level.
   * For example, `{ major: 1, minor: 1, patch: 1 }, ChangeLevel.minor, 'beta'` returns a function
   * that matches any `1.1.x-beta`. */
-  static changeLevelFilterFn(targetVersion: ReleaseVersionInput, changeLevel: ChangeLevel, channel?: string): PrereleaseVersionFilter {
+  static changeLevelFilterFn(targetVersion: ReleaseVersionObjectInput, changeLevel: ChangeLevel, channel?: string): PrereleaseVersionFilter {
     return ((prereleaseVersion: PrereleaseVersion) => {
       if (channel && (prereleaseVersion.channel != channel)) {
         return false;
@@ -68,7 +94,22 @@ export class PrereleaseVersion {
     return 0;
   }
 
-  static parseVersionComponents(versionString: string): PrereleaseVersionInput {
+  /* Given a series of prerelease version inputs, return the one that has the highest version
+   * number. */
+  static highestOf<T extends PrereleaseVersionInput>(versionInputs: T[]): T {
+    if (versionInputs.length === 0) {
+      throw new Error('PrereleaseVersion.higherOf() requires an array of at least one item.')
+    }
+    if (versionInputs.length === 1) {
+      return versionInputs[0];
+    }
+    const versionRecords = createVersionRecords(versionInputs)
+      .sort(sorterOnPrereleaseVersion)
+      .reverse();
+    return versionRecords[0].versionInput as T;
+  }
+
+  static parseVersionComponents(versionString: string): PrereleaseVersionObjectInput {
     const PRERELEASE_VERSION_ELEMENT_COUNT = 5;
 
     const pattern = PrereleaseVersion.versionPattern();
@@ -110,7 +151,7 @@ export class PrereleaseVersion {
   /* Given a core version and, optionally, a channel, return a filter that matches all prerelease
    * versions having the same core version and channel (or any channel, if none is specified). */
   static versionFilterFn(
-    coreVersionInput: ReleaseVersionInput,
+    coreVersionInput: ReleaseVersionObjectInput,
     channel?: string
   ): PrereleaseVersionFilter {
     return ((prereleaseVersion: PrereleaseVersion) => {
@@ -140,15 +181,13 @@ export class PrereleaseVersion {
 
   patch: Integer = 0;
 
-  constructor(versionInput: PrereleaseVersionInput)
+  constructor(prereleaseVersion: PrereleaseVersion, change: PrereleaseVersionChange);
 
-  constructor(versionString: string);
+  constructor(releaseVersion: ReleaseVersion, change: PrereleaseVersionChange);
 
-  constructor(prereleaseVersion: PrereleaseVersion, change: PrereleaseVersionChange)
+  constructor(versionInput: PrereleaseVersion | PrereleaseVersionObjectInput | string);
 
-  constructor(releaseVersion: ReleaseVersion, change: PrereleaseVersionChange)
-
-  constructor(versionInput: ReleaseVersion | PrereleaseVersion | PrereleaseVersionInput | string, change?: PrereleaseVersionChange) {
+  constructor(versionInput: ReleaseVersion | PrereleaseVersion | PrereleaseVersionObjectInput | string, change?: PrereleaseVersionChange) {
     const objectInput = typeof versionInput === 'object'
       ? versionInput
       : PrereleaseVersion.parseVersionComponents(versionInput);
@@ -170,10 +209,7 @@ export class PrereleaseVersion {
     }
 
     if (objectInput instanceof PrereleaseVersion) {
-      if (change === undefined) {
-        throw new Error('Cannot instantiate from PrereleaseVersion without PrereleaseVersionChange')
-      }
-      const { channel, changeLevel = ChangeLevel.none } = change;
+      const { channel, changeLevel = ChangeLevel.none } = (change || objectInput);
       const prereleaseVersion = new PrereleaseVersion({ ...objectInput });
       return prereleaseVersion.spawn(channel, changeLevel);
     }

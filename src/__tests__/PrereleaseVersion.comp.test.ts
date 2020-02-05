@@ -252,6 +252,37 @@ describe('PrereleaseVersion class', () => {
     });
   });
 
+  describe('highestOf(PrereleaseVersionInput[])', () => {
+    it('should return the highest of prerelease version strings', () => {
+      const versionStrings = [
+        '1.0.0-alpha.1', '0.2.0-beta.2', '0.0.3-next.3',
+      ];
+      const highest = PrereleaseVersion.highestOf(versionStrings);
+
+      expect(highest).toBe('1.0.0-alpha.1');
+    });
+
+    it('should return the highest of PreeleaseVersion objects', () => {
+      const prereleaseVersions: PrereleaseVersion[] = [
+        '1.0.0-alpha.1', '0.2.0-beta.2', '0.0.3-next.3',
+      ]
+        .map((versionString) => new PrereleaseVersion(versionString));
+      const highest = PrereleaseVersion.highestOf(prereleaseVersions);
+
+      expect(highest.versionString).toBe('1.0.0-alpha.1');
+    });
+
+    it('should return the highest of object literals', () => {
+      const versionInputs = [
+        { channel: 'alpha', major: 1 },
+        { channel: 'beta', minor: 2 },
+        { channel: 'next', patch: 3 }];
+      const highest = ReleaseVersion.highestOf(versionInputs);
+
+      expect(highest).toEqual({ channel: 'alpha', major: 1 });
+    });
+  });
+
   describe('parseVersionComponents(:string)', () => {
     it("can parse '1.1.1-alpha.0' to an object", () => {
       const versionString = '1.1.1-alpha.0';
