@@ -1,19 +1,35 @@
 {
   "name": "@skypilot/versioner",
-  "version": "0.0.0",
   "description": "Generates semantic release & prerelease version numbers and changelogs",
+  "homepage": "https://github.com/skypilotcc/versioner#readme",
+  "version": "1.0.0",
   "main": "lib/index.js",
+  "author": {
+    "email": "william@thorsen.dev",
+    "name": "William Thorsen"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/skypilotcc/versioner.git"
   },
-  "author": "William Thorsen <william@thorsen.dev>",
-  "license": "ISC",
-  "private": false,
   "bugs": {
     "url": "https://github.com/skypilotcc/versioner/issues"
   },
-  "homepage": "https://github.com/skypilotcc/versioner#readme",
+  "keywords": [
+    "automated",
+    "changelog",
+    "prerelease",
+    "release",
+    "semantic",
+    "version"
+  ],
+  "devDependencies": {
+    "@skypilot/common-types": "^0.5.0",
+    "@skypilot/toolchain": "^1.14.6"
+  },
+  "files": [
+    "/lib"
+  ],
   "scripts": {
     "all-ci-checks": "yarn run all-cq-checks && yarn run build",
     "all-cq-checks": "yarn run typecheck && yarn run lint --quiet && yarn test",
@@ -29,23 +45,10 @@
     "test": "jest",
     "typecheck": "tsc"
   },
-  "keywords": [
-    "automated",
-    "semantic",
-    "release",
-    "prerelease",
-    "version",
-    "changelog"
-  ],
-  "devDependencies": {
-    "@skypilot/common-types": "^0.5.0",
-    "@skypilot/toolchain": "^1.14.6"
-  },
+  "private": false,
+  "license": "ISC",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "/lib"
-  ],
   "types": "lib/index.d.ts"
 }
