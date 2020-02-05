@@ -1,5 +1,9 @@
 # @skypilot/versioner
 
+[![build](https://img.shields.io/github/workflow/status/skypilotcc/versioner/Build%20&%20publish%20stable%20Node%20package?label=build)]()&nbsp;
+[![npm](https://img.shields.io/npm/v/@skypilot/versioner?label=npm)](https://www.npmjs.com/package/@skypilot/versioner)&nbsp;
+[![license: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ISC)  
+
 A collection of functions and classes for managing version numbers.
 
 ## Installation
@@ -71,7 +75,7 @@ bumpVersion('1.0.1', 'minor', 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.2'])
 // '1.1.0-alpha.3'
 ```
 
-## Advance usage
+## Advanced usage
 
 The library exposes the following exports:
 
