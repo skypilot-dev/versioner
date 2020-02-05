@@ -3,7 +3,7 @@ import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
 import { ReleaseVersion, ReleaseVersionObjectInput, ReleaseVersionRecord } from './ReleaseVersion';
 
-type PrereleaseVersionFilter = (prereleaseVersion: PrereleaseVersion) => boolean;
+type PrereleaseVersionFilter = (versionInput: PrereleaseVersionInput) => boolean;
 type PrereleaseVersionInput = PrereleaseVersion | PrereleaseVersionObjectInput | string;
 type PrereleaseVersionSorter = (a: VersionRecord, b: VersionRecord) => SortComparison;
 type VersionRecord = { prereleaseVersion: PrereleaseVersion; versionInput: PrereleaseVersionInput };
@@ -52,7 +52,8 @@ export class PrereleaseVersion {
   * For example, `{ major: 1, minor: 1, patch: 1 }, ChangeLevel.minor, 'beta'` returns a function
   * that matches any `1.1.x-beta`. */
   static changeLevelFilterFn(targetVersion: ReleaseVersionObjectInput, changeLevel: ChangeLevel, channel?: string): PrereleaseVersionFilter {
-    return ((prereleaseVersion: PrereleaseVersion) => {
+    return ((prereleaseVersionInput: PrereleaseVersionInput) => {
+      const prereleaseVersion = new PrereleaseVersion(prereleaseVersionInput);
       if (channel && (prereleaseVersion.channel != channel)) {
         return false;
       }
@@ -154,7 +155,8 @@ export class PrereleaseVersion {
     coreVersionInput: ReleaseVersionObjectInput,
     channel?: string
   ): PrereleaseVersionFilter {
-    return ((prereleaseVersion: PrereleaseVersion) => {
+    return ((prereleaseVersionInput: PrereleaseVersionInput) => {
+      const prereleaseVersion = new PrereleaseVersion(prereleaseVersionInput);
       if (channel && (prereleaseVersion.channel !== channel)) {
         return false;
       }
