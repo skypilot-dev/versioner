@@ -1,6 +1,6 @@
 # @skypilot/versioner
 
-[![build](https://img.shields.io/github/workflow/status/skypilotcc/versioner/Build%20&%20publish%20stable%20Node%20package?label=build)]()&nbsp;
+[![build](https://img.shields.io/github/workflow/status/skypilotcc/versioner/Stable%20release?label=build)]()&nbsp;
 [![npm](https://img.shields.io/npm/v/@skypilot/versioner?label=npm)](https://www.npmjs.com/package/@skypilot/versioner)&nbsp;
 [![license: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ISC)  
 
