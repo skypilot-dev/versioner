@@ -1,3 +1,11 @@
+## [1.1.4](https://github.com/skypilotcc/versioner/compare/v1.1.4-next.0...v1.1.4) (2020-02-06)
+
+
+
+## [1.1.4-next.0](https://github.com/skypilotcc/versioner/compare/v1.1.3...v1.1.4-next.0) (2020-02-06)
+
+
+
 ## [1.1.3](https://github.com/skypilotcc/versioner/compare/v1.1.3-next.0...v1.1.3) (2020-02-06)
 
 
