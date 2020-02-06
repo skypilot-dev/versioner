@@ -1,7 +1,8 @@
 # @skypilot/versioner
 
 [![build](https://img.shields.io/github/workflow/status/skypilotcc/versioner/Stable%20release?label=build)]()&nbsp;
-[![npm](https://img.shields.io/npm/v/@skypilot/versioner?label=npm)](https://www.npmjs.com/package/@skypilot/versioner)&nbsp;
+[![npm stable](https://img.shields.io/npm/v/@skypilot/versioner?label=stable)](https://www.npmjs.com/package/@skypilot/versioner)&nbsp;
+[![npm next](https://img.shields.io/npm/v/@skypilot/versioner/next?label=next)](https://www.npmjs.com/package/@skypilot/versioner)&nbsp;
 [![license: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](https://opensource.org/licenses/ISC)  
 
 A collection of functions and classes for managing version numbers.
