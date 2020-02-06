@@ -25,7 +25,7 @@
   ],
   "devDependencies": {
     "@skypilot/common-types": "^1.0.1",
-    "@skypilot/toolchain": "^2.0.1"
+    "@skypilot/toolchain": "^2.0.4"
   },
   "files": [
     "/lib"
