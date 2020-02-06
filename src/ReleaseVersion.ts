@@ -65,15 +65,25 @@ export class ReleaseVersion {
     return { major, minor, patch };
   }
 
-  /* A sort function usable with any objects that have `major`, `minor` & `patch` properties. */
-  static sorter(a: ReleaseVersionRecord, b: ReleaseVersionRecord): SortComparison {
+  /* A sort function usable with any objects that have `major`, `minor` & `patch` properties
+   * or any version string parsable as a release version. */
+  static sorter(
+    a: ReleaseVersionRecord | string,
+    b: ReleaseVersionRecord | string
+  ): SortComparison {
     const sortableProps: Array<keyof ReleaseVersionRecord> = ['major', 'minor', 'patch'];
+    const releaseA = typeof a === 'string'
+      ? new ReleaseVersion(a)
+      : a;
+    const releaseB = typeof b === 'string'
+      ? new ReleaseVersion(b)
+      : b;
     for (let i = 0; i < sortableProps.length; i += 1) {
       const prop = sortableProps[i];
-      if (a[prop] > b[prop]) {
+      if (releaseA[prop] > releaseB[prop]) {
         return SORT_LOWER;
       }
-      if (a[prop] < b[prop]) {
+      if (releaseA[prop] < releaseB[prop]) {
         return SORT_HIGHER;
       }
     }
