@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/skypilotcc/versioner/compare/v1.3.0-next.0...v1.3.0) (2020-02-10)
+
+
+
+# [1.3.0-next.0](https://github.com/skypilotcc/versioner/compare/v1.2.1...v1.3.0-next.0) (2020-02-10)
+
+
+### Features
+
+* Can get the string representation of a change level ([8f40b8d](https://github.com/skypilotcc/versioner/commit/8f40b8d7b2dae1c9c8635f69f9e166e3111091c6))
+
+
+
 ## [1.2.1](https://github.com/skypilotcc/versioner/compare/v1.2.1-next.0...v1.2.1) (2020-02-10)
 
 
@@ -23,31 +36,19 @@
 
 
 
-## [1.1.4](https://github.com/skypilotcc/versioner/compare/v1.1.4-next.0...v1.1.4) (2020-02-06)
+## [1.1.4](https://github.com/skypilotcc/versioner/compare/v1.1.3...v1.1.4) (2020-02-06)
 
 
 
-## [1.1.4-next.0](https://github.com/skypilotcc/versioner/compare/v1.1.3...v1.1.4-next.0) (2020-02-06)
+## [1.1.3](https://github.com/skypilotcc/versioner/compare/v1.1.2...v1.1.3) (2020-02-06)
 
 
 
-## [1.1.3](https://github.com/skypilotcc/versioner/compare/v1.1.3-next.0...v1.1.3) (2020-02-06)
+## [1.1.2](https://github.com/skypilotcc/versioner/compare/v1.0.1...v1.1.2) (2020-02-06)
 
 
 
-## [1.1.3-next.0](https://github.com/skypilotcc/versioner/compare/v1.1.2-next.0...v1.1.3-next.0) (2020-02-06)
-
-
-
-## [1.1.2-next.0](https://github.com/skypilotcc/versioner/compare/v1.1.2...v1.1.2-next.0) (2020-02-06)
-
-
-
-## [1.0.1](https://github.com/skypilotcc/versioner/compare/v1.1.0-next.1...v1.0.1) (2020-02-06)
-
-
-
-# [1.1.0-next.1](https://github.com/skypilotcc/versioner/compare/v1.0.0-next.0...v1.1.0-next.1) (2020-02-06)
+## [1.0.1](https://github.com/skypilotcc/versioner/compare/v1.0.0-next.0...v1.0.1) (2020-02-06)
 
 
 ### Features

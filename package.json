@@ -2,7 +2,7 @@
   "name": "@skypilot/versioner",
   "description": "Generates semantic release & prerelease version numbers and changelogs",
   "homepage": "https://github.com/skypilotcc/versioner#readme",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "main": "lib/index.js",
   "author": {
     "email": "william@thorsen.dev",
@@ -23,6 +23,9 @@
     "semantic",
     "version"
   ],
+  "dependencies": {
+    "@skypilot/sugarbowl": "^1.4.4"
+  },
   "devDependencies": {
     "@skypilot/common-types": "^1.0.5",
     "@skypilot/toolchain": "^3.2.0"
@@ -50,8 +53,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "types": "lib/index.d.ts",
-  "dependencies": {
-    "@skypilot/sugarbowl": "^1.4.4"
-  }
+  "types": "lib/index.d.ts"
 }
