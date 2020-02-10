@@ -90,12 +90,17 @@ export class ReleaseVersion {
     return SORT_EQUAL;
   }
 
+  /* Deprecated. */
   static versionFilter(versionString: string): boolean {
     return ReleaseVersion.versionPattern().test(versionString);
   }
 
   static versionPattern(): RegExp {
     return new RegExp(/^v?([0-9]+)\.([0-9]+)\.([0-9]+)$/);
+  }
+
+  static versionPatternFilter(versionString: string): boolean {
+    return ReleaseVersion.versionPattern().test(versionString);
   }
 
   major: Integer;

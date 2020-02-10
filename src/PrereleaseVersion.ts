@@ -171,6 +171,12 @@ export class PrereleaseVersion {
     return new RegExp(`^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)-(${channelPattern})\\.([0-9]+)$`);
   }
 
+  static versionPatternFilterFn(channelPattern = '[A-Za-z]+') {
+    return (versionString: string) => PrereleaseVersion
+      .versionPattern(channelPattern)
+      .test(versionString);
+  }
+
   changeLevel = ChangeLevel.none;
 
   channel = '';

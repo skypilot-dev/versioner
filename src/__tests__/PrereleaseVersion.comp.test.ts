@@ -416,4 +416,43 @@ describe('PrereleaseVersion class', () => {
       expect(filteredStrings).toEqual(expected);
     });
   });
+
+  describe('versionPatternFilterFn(channel?:string)', () => {
+    it('given no channel, should return a filter that matches all prerelease versions', () => {
+      const versionStrings = [
+        '0.0.0',
+        '0.1.1-alpha.0',
+        '1.2.3-beta.20',
+        'not-a-version',
+        '0.0.0-bad',
+      ];
+      const filteredStrings = versionStrings
+        .filter(PrereleaseVersion.versionPatternFilterFn());
+
+      const expected = [
+        '0.1.1-alpha.0',
+        '1.2.3-beta.20',
+      ];
+      expect(filteredStrings).toEqual(expected);
+    });
+
+    it('given a channel, should return a filter that matches all versions in that channel', () => {
+      const versionStrings = [
+        '0.0.0',
+        '0.0.0-bad',
+        '0.0.0-beta',
+        '0.1.1-alpha.0',
+        '1.2.3-beta.20',
+        '4.5.6-beta.0',
+      ];
+      const filteredStrings = versionStrings
+        .filter(PrereleaseVersion.versionPatternFilterFn('beta'));
+
+      const expected = [
+        '1.2.3-beta.20',
+        '4.5.6-beta.0',
+      ];
+      expect(filteredStrings).toEqual(expected);
+    });
+  });
 });
