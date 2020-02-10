@@ -1,3 +1,20 @@
+# [1.2.0](https://github.com/skypilotcc/versioner/compare/v1.2.0-next.0...v1.2.0) (2020-02-10)
+
+
+
+# [1.2.0-next.0](https://github.com/skypilotcc/versioner/compare/v1.2.0-beta.0...v1.2.0-next.0) (2020-02-10)
+
+
+### Features
+
+* Add a prerelease version-pattern filter function ([3445e0d](https://github.com/skypilotcc/versioner/commit/3445e0d68dbe77197e12e3e14456e16b452f6e9a))
+
+
+
+## [1.1.4-beta.0](https://github.com/skypilotcc/versioner/compare/v1.1.4...v1.1.4-beta.0) (2020-02-10)
+
+
+
 ## [1.1.4](https://github.com/skypilotcc/versioner/compare/v1.1.4-next.0...v1.1.4) (2020-02-06)
 
 
