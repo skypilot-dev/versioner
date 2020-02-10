@@ -50,5 +50,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "@skypilot/sugarbowl": "^1.4.4"
+  }
 }

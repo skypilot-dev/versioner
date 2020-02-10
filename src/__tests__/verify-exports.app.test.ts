@@ -10,6 +10,7 @@ const intendedExports: string[] = [
 
   /* Functions */
   'bumpVersion',
+  'changeLevelToString',
   'parseChangeLevel',
 ];
 

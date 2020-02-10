@@ -1095,6 +1095,11 @@
   resolved "https://registry.yarnpkg.com/@skypilot/common-types/-/common-types-1.0.5.tgz#f500713750f8dfa5943ef35eaa99844e5a3223e1"
   integrity sha512-s+XokBnxVm5Zx+8LZIdvEwKSV90NPzEgIsUhdmK7dbX4nv7Fcz8epwl6rd3R1b9vglPD/OTiKq0foEUJhTqkSw==
 
+"@skypilot/sugarbowl@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@skypilot/sugarbowl/-/sugarbowl-1.4.4.tgz#2c886b7bb8e1099927fa8d793b3230d12be1425b"
+  integrity sha512-hIMvop/lFJSuTOiO1R9kOgTP5Agr9RQavKTUWBX7DAO4JLOOXCGOZb0at+4R959parsfPPgy2nvUfEwayis4xg==
+
 "@skypilot/toolchain@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@skypilot/toolchain/-/toolchain-3.2.0.tgz#1b38f0e717152b60303ed6271c090a705c1daa5e"
