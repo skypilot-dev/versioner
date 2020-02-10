@@ -356,7 +356,7 @@ describe('PrereleaseVersion class', () => {
     });
   });
 
-  describe('versionFilterFn(:ReleaseVersionInput, channel:string)', () => {
+  describe('versionFilterFn(:PrereleaseVersionInput, channel:string)', () => {
     const prereleaseVersions: PrereleaseVersion[] = [
       '1.2.1-alpha.0',
       '1.2.2-alpha.0',
@@ -393,6 +393,27 @@ describe('PrereleaseVersion class', () => {
         '1.2.2-beta.0',
       ];
       expect(filtered).toEqual(expected);
+    });
+  });
+
+  describe('versionPattern(channel?:string)', () => {
+    it('given no channel, should match all prerelease versions', () => {
+      const versionStrings = [
+        '0.0.0',
+        '0.1.1-alpha.0',
+        '1.2.3-beta.20',
+        'not-a-version',
+        '0.0.0-bad',
+      ];
+      const versionPattern = PrereleaseVersion.versionPattern();
+      const filteredStrings = versionStrings
+        .filter((versionString) => versionPattern.test(versionString));
+
+      const expected = [
+        '0.1.1-alpha.0',
+        '1.2.3-beta.20',
+      ];
+      expect(filteredStrings).toEqual(expected);
     });
   });
 });
