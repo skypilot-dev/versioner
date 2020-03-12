@@ -12,30 +12,30 @@ A collection of functions and classes for managing version numbers.
 
 ## Installation
 
-**Yarn:**
-```
-yarn add @skypilot/versioner
-```
-
-
-**NPM:**
-```
-npm install @skypilot/versioner
+```console
+$ yarn add @skypilot/versioner
+# or
+$ npm install @skypilot/versioner
 ```
 
 ## Basic usage
 
 ### TypeScript
 
-```
+```typescript
 import { bumpVersion, ChangeLevel } from '@skypilot/versioner';
 
-bumpVersion(version: string, changeLevel: ChangeLevel, channel?: string, previousVersions?: string[])
+bumpVersion(
+  version: string,
+  changeLevel: ChangeLevel,
+  channel?: string,
+  previousVersions?: string[]
+)
 ```
 
 #### TypeScript examples
 
-```
+```typescript
 bumpVersion('1.0.1', ChangeLevel.patch)
 // '1.0.2'
 
@@ -53,16 +53,21 @@ bumpVersion('1.0.1', ChangeLevel.minor, 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.
 ```
 
 ### ES6
-```
+
+```javascript
 import { bumpVersion } from '@skypilot/versioner';
 
-bumpVersion(version: string, changeLevel: 'major' | 'minor' | 'patch' | 'fix', channel?: string, previousVersions?: string[])
-
+bumpVersion(
+  version, // string
+  changeLevel, // 'major' | 'minor' | 'patch' | 'fix'
+  channel, // [optional] string
+  previousVersions // [optional] string[]
+)
 ```
 
 #### ES6 examples
 
-```
+```javascript
 bumpVersion('1.0.1', 'patch')
 // '1.0.2'
 
@@ -83,17 +88,16 @@ bumpVersion('1.0.1', 'minor', 'alpha', ['1.1.0-alpha.1', '1.1.0-alpha.2'])
 
 The library exposes the following exports:
 
-#### Classes
+### Classes
 
 - `PrereleaseVersion`
 - `ReleaseVersion`
 
-
-#### Constants & enums
+### Constants & enums
 
 - `ChangeLevel`
 
-#### Functions
+### Functions
 
 - `parseChangeLevel(changeLevel: string): ChangeLevel`
 
