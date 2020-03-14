@@ -24,11 +24,11 @@
     "version"
   ],
   "dependencies": {
-    "@skypilot/sugarbowl": "^1.5.1"
+    "@skypilot/sugarbowl": "^1.5.2"
   },
   "devDependencies": {
-    "@skypilot/common-types": "^1.4.1",
-    "@skypilot/toolchain": "^3.5.2"
+    "@skypilot/common-types": "^1.4.3",
+    "@skypilot/toolchain": "^3.5.8"
   },
   "files": [
     "/lib"
