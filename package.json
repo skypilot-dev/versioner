@@ -24,11 +24,11 @@
     "version"
   ],
   "dependencies": {
-    "@skypilot/sugarbowl": "^1.5.2"
+    "@skypilot/sugarbowl": "^1.7.1"
   },
   "devDependencies": {
-    "@skypilot/common-types": "^1.4.3",
-    "@skypilot/toolchain": "^3.5.8"
+    "@skypilot/common-types": "^1.5.0",
+    "@skypilot/toolchain": "^3.6.0"
   },
   "files": [
     "/lib"
@@ -52,11 +52,6 @@
   "license": "ISC",
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "**/acorn-globals/acorn": "^6.4.1",
-    "**/jsdom/acorn": "^7.1.1",
-    "eslint/**/acorn": "^7.1.1"
   },
   "types": "lib/index.d.ts"
 }
