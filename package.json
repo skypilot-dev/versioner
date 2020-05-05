@@ -1,8 +1,20 @@
 {
   "name": "@skypilot/versioner",
-  "version": "1.3.4",
-  "private": false,
   "description": "Generates semantic release & prerelease version numbers and changelogs",
+  "homepage": "https://github.com/skypilot-dev/versioner#readme",
+  "version": "1.3.5",
+  "main": "lib/index.js",
+  "author": {
+    "email": "wthorsen@skypilot.dev",
+    "name": "William Thorsen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skypilot-dev/versioner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/skypilot-dev/versioner/issues"
+  },
   "keywords": [
     "automated",
     "changelog",
@@ -11,21 +23,13 @@
     "semantic",
     "version"
   ],
-  "homepage": "https://github.com/skypilot-dev/versioner#readme",
-  "bugs": {
-    "url": "https://github.com/skypilot-dev/versioner/issues"
+  "dependencies": {
+    "@skypilot/sugarbowl": "^1.15.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/skypilot-dev/versioner.git"
+  "devDependencies": {
+    "@skypilot/common-types": "^1.7.0",
+    "@skypilot/toolchain": "^3.6.3"
   },
-  "license": "ISC",
-  "author": {
-    "name": "William Thorsen",
-    "email": "wthorsen@skypilot.dev"
-  },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "files": [
     "/lib"
   ],
@@ -44,14 +48,10 @@
     "test": "jest",
     "typecheck": "tsc"
   },
-  "dependencies": {
-    "@skypilot/sugarbowl": "^1.15.0"
-  },
-  "devDependencies": {
-    "@skypilot/common-types": "^1.7.0",
-    "@skypilot/toolchain": "^3.6.3"
-  },
+  "private": false,
+  "license": "ISC",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "lib/index.d.ts"
 }
