@@ -1,5 +1,6 @@
 import { ChangeLevel } from '../constants';
-import { ReleaseVersion, ReleaseVersionRecord } from '../ReleaseVersion';
+import { ReleaseVersion } from '../ReleaseVersion';
+import type { ReleaseVersionRecord } from '../ReleaseVersion';
 
 describe('ReleaseVersion class', () => {
   describe('constructor', () => {

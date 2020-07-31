@@ -1,5 +1,6 @@
 import { ChangeLevel } from '../constants';
-import { PrereleaseVersion, PrereleaseVersionRecord } from '../PrereleaseVersion';
+import { PrereleaseVersion } from '../PrereleaseVersion';
+import type { PrereleaseVersionRecord } from '../PrereleaseVersion';
 import { ReleaseVersion } from '../ReleaseVersion';
 
 describe('PrereleaseVersion class', () => {

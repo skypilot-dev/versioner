@@ -1,7 +1,8 @@
-import { Integer, SortComparison } from '@skypilot/common-types';
+import type { Integer, SortComparison } from '@skypilot/common-types';
 import { SORT_EQUAL, SORT_HIGHER, SORT_LOWER } from './common/array/constants';
 import { ChangeLevel } from './constants';
-import { ReleaseVersion, ReleaseVersionObjectInput, ReleaseVersionRecord } from './ReleaseVersion';
+import { ReleaseVersion } from './ReleaseVersion';
+import type { ReleaseVersionObjectInput, ReleaseVersionRecord } from './ReleaseVersion';
 
 type PrereleaseVersionFilter = (versionInput: PrereleaseVersionInput) => boolean;
 type PrereleaseVersionInput = PrereleaseVersion | PrereleaseVersionObjectInput | string;

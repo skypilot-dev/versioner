@@ -1,5 +1,6 @@
 import { ChangeLevel } from './constants';
-import { ChangeLevelString, parseChangeLevel } from './parseChangeLevel';
+import { parseChangeLevel } from './parseChangeLevel';
+import type { ChangeLevelString } from './parseChangeLevel';
 import { PrereleaseVersion } from './PrereleaseVersion';
 import { ReleaseVersion } from './ReleaseVersion';
 
