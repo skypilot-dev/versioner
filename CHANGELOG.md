@@ -1,3 +1,11 @@
+## [1.3.8](https://github.com/skypilot-dev/versioner/compare/v1.3.8-next.1...v1.3.8) (2020-07-31)
+
+
+
+## [1.3.8-next.1](https://github.com/skypilot-dev/versioner/compare/v1.3.8-next.0...v1.3.8-next.1) (2020-07-31)
+
+
+
 ## [1.3.7](https://github.com/skypilot-dev/versioner/compare/v1.3.7-next.0...v1.3.7) (2020-05-31)
 
 
